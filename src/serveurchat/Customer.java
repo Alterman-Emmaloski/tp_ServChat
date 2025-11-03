@@ -52,7 +52,7 @@ public class Customer {
     static void remove(ManagerCustomer aThis) {
         synchronized (customers) {
             customers.remove(aThis);
-            System.out.println("Client supprimé. Nombre de clients restants : " + clients.size());
+            System.out.println("Client supprimé. Nombre de clients restants : " + customers.size());
         }
     }
 
