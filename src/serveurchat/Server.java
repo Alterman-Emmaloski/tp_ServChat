@@ -18,16 +18,16 @@ import java.util.Set;
 public class Server {
 
     private static final int PORT = 1020;
-    private static Set<ManagerCustomer> clients = Collections.synchronizedSet(new HashSet<>());
+    private static Set<ManagerCustomer> customers = Collections.synchronizedSet(new HashSet<>());
 
     public static void main(String[] args) {
         System.out.println("Serveur démarré sur le port " + PORT);
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
             while (true) {
                 Socket socket = serverSocket.accept();
-                ManagerCustomer client = new ManagerCustomer(socket);
-                clients.add(client);
-                new Thread((Runnable) client).start();
+                ManagerCustomer customer = new ManagerCustomer(socket);
+                customers.add(customer);
+                new Thread((Runnable) customer).start();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -35,16 +35,16 @@ public class Server {
     }
 
     public static int getClientCount() {
-        synchronized (clients) {
-            return clients.size();
+        synchronized (customers) {
+            return customers.size();
         }
     }
 
     static void broadcast(String message, ManagerCustomer sender) {
-        synchronized (clients) {
-            for (ManagerCustomer client : clients) {
-                if (client != sender) {
-                    client.sendMessage(message);
+        synchronized (customers) {
+            for (ManagerCustomer customer : customers) {
+                if (customer != sender) {
+                    customer.sendMessage(message);
                 }
             }
         }
