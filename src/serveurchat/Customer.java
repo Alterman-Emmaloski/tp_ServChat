@@ -20,7 +20,7 @@ import java.util.Set;
  */
 public class Customer {
 
-    private static Set<ManagerCustomer> clients = Collections.synchronizedSet(new HashSet<>());
+    private static Set<ManagerCustomer> customers = Collections.synchronizedSet(new HashSet<>());
 
     public static void main(String[] args) {
         String host = "localhost";
@@ -50,8 +50,8 @@ public class Customer {
     }
 
     static void remove(ManagerCustomer aThis) {
-        synchronized (clients) {
-            clients.remove(aThis);
+        synchronized (customers) {
+            customers.remove(aThis);
             System.out.println("Client supprimé. Nombre de clients restants : " + clients.size());
         }
     }
