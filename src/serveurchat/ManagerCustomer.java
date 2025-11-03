@@ -22,7 +22,7 @@ public class ManagerCustomer implements Runnable {
     private Socket socket;
     private PrintWriter out;
     private BufferedReader in;
-    private static Set<ManagerCustomer> clients = Collections.synchronizedSet(new HashSet<>());
+    private static Set<ManagerCustomer> customers = Collections.synchronizedSet(new HashSet<>());
 
     public ManagerCustomer(Socket socket) {
         this.socket = socket;
@@ -33,13 +33,13 @@ public class ManagerCustomer implements Runnable {
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out = new PrintWriter(socket.getOutputStream(), true);
 
-            System.out.println("Nouveau client connecté. Total : " + Server.getClientCount());
+            System.out.println("Nouveau client connecté. Total : " + Server.getCustomerCount());
 
             String message;
             while ((message = in.readLine()) != null) {
                 System.out.println("Message reçu : " + message);
                 Server.broadcast(message, this);
-                System.out.println("Clients connectés actuellement : " + Server.getClientCount());
+                System.out.println("Clients connectés actuellement : " + Server.getCustomerCount());
             }
         } catch (IOException e) {
             System.out.println("Client déconnecté.");
@@ -50,7 +50,7 @@ public class ManagerCustomer implements Runnable {
             }
 
             Customer.remove(this);
-            System.out.println("Client supprimé. Total : " + Server.getClientCount());
+            System.out.println("Client supprimé. Total : " + Server.getCustomerCount());
         }
     }
 
